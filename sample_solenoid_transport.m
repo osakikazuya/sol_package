@@ -1,7 +1,7 @@
 (* ::Package:: *)
 
 (*RungeKutta Method 4th*)
-
+ Print[Text[Style["Single Particle Simulation through a Nonlinear Solenoid using 4th RungeKutta Method", 24, Bold, Black]]];
  Off[NIntegrate::inumr];
  Off[NDSolveValue::ecboo];
  Off[NDSolveValue::nbnum1];
@@ -59,6 +59,7 @@
       "Kinetic Energy[eV]",
       "Lorentz Factor Gamma",
       "Lorentz Factor Beta",
+      "Rigidity[Brho]",
       "Solenoid Radius[m]",
       "Solenoid Length[m]",
       "Central Solenoid Field[Tesla]",
@@ -71,6 +72,7 @@
      Ene,
      NumberForm[gamma,9],
      v/clight,
+     m*gamma*v/q/Inum,
      R,
      l,
      1,
