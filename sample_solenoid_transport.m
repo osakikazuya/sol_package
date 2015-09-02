@@ -101,7 +101,7 @@ Table[ypy[i] = Table[{SOL[i][[2]][t], SOL[i][[2]]'[t]}, {t, 0, Lz/v, Lz/v/2000}]
 Table[zpz[i] = Table[{SOL[i][[3]][t], SOL[i][[3]]'[t]}, {t, 0, Lz/v, Lz/v/2000}], {i, 1, 2}];
     
     
-Print[Text[Style["Plot of Particle Orbit in Real Space", 16, Bold, Black]]];
+Print[Text[Style["Plot of Particle Orbit in Real Space and Phase Space", 16, Bold, Black]]];
     
 Print[XY[1] = ListPlot[Table[xy[i], {i, 1, 2}], PlotRange -> All, FrameLabel -> {"x_coordinate[m]", "y_coordinate[m]"}, 
                        AspectRatio -> 1, LabelStyle -> Directive[15], Axes -> None, PlotStyle -> PointSize[0.009], Joined -> True, Frame -> True]];(*Plot particle orbit in xy space*)
