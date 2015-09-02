@@ -25,7 +25,7 @@
  
  Inum = 34;(*Charge number*)
  
- Ene = 3*10^6;(*Kinetic energy*)
+ Ene = 10*10^6;(*Kinetic energy*)
  
  gamma = q*Ene/(m*clight^2) + 1;(*Lorentz factor*)
  
@@ -35,9 +35,9 @@
  
  Yinit[1] = {0.002, 0};(*Initial y coodinate[m]*)
  
- Pxinit[1] = {100, 0};(*Initial vx[m/s]*)
+ Pxinit[1] = {1000, 0};(*Initial vx[m/s]*)
  
- Pyinit[1] = {100, 100};(*Initial vy[m/s]*)
+ Pyinit[1] = {1000, 1000};(*Initial vy[m/s]*)
  
  BzCent[r_, z_] := NIntegrate[1/(2 \[Pi]) ((R^2 - R*r*Cos[\[Theta]])/(R^2 + r^2 - 2 R*r*Cos[\[Theta]]))*((z + l/2)/
                                 Sqrt[(z + l/2)^2 + R^2 + r^2 - 2 R*r*Cos[\[Theta]]] - (z - l/2)/Sqrt[(z - l/2)^2 + R^2 + r^2 - 2 R*r*Cos[\[Theta]]]), {\[Theta], 0, 2 \[Pi]}];
@@ -96,18 +96,31 @@
 Table[xy[i] = Table[{SOL[i][[1]][t], SOL[i][[2]][t]}, {t, 0, Lz/v, Lz/v/2000}], {i, 1, 2}];
 Table[xz[i] = Table[{SOL[i][[3]][t], SOL[i][[1]][t]}, {t, 0, Lz/v, Lz/v/2000}], {i, 1, 2}];
 Table[yz[i] = Table[{SOL[i][[3]][t], SOL[i][[2]][t]}, {t, 0, Lz/v, Lz/v/2000}], {i, 1, 2}];
-
+Table[xpx[i] = Table[{SOL[i][[1]][t], SOL[i][[1]]'[t]}, {t, 0, Lz/v, Lz/v/2000}], {i, 1, 2}];
+Table[ypy[i] = Table[{SOL[i][[2]][t], SOL[i][[2]]'[t]}, {t, 0, Lz/v, Lz/v/2000}], {i, 1, 2}];
+Table[zpz[i] = Table[{SOL[i][[3]][t], SOL[i][[3]]'[t]}, {t, 0, Lz/v, Lz/v/2000}], {i, 1, 2}];
+    
+    
 Print[Text[Style["Plot of Particle Orbit in Real Space", 16, Bold, Black]]];
     
-Print[XY[1] = ListPlot[Table[xy[i], {i, 1, 2}], PlotRange -> {{-0.03, 0.03}, {-0.03, 0.03}}, FrameLabel -> {"x_coordinate[m]", "y_coordinate[m]"}, 
-                       AspectRatio -> 1, LabelStyle -> Directive[15], PlotStyle -> PointSize[0.009], Joined -> True, Frame -> True]];(*Plot particle orbit in xy space*)
+Print[XY[1] = ListPlot[Table[xy[i], {i, 1, 2}], PlotRange -> All, FrameLabel -> {"x_coordinate[m]", "y_coordinate[m]"}, 
+                       AspectRatio -> 1, LabelStyle -> Directive[15], Axes -> None, PlotStyle -> PointSize[0.009], Joined -> True, Frame -> True]];(*Plot particle orbit in xy space*)
             
-Print[XZ[1] = ListPlot[Table[xz[i], {i, 1, 2}], PlotRange -> {{-10, 10}, {-0.2, 0.2}}, FrameLabel -> {"z_coordinate[m]", "x_coordinate[m]"}, 
-                LabelStyle -> Directive[15], PlotStyle -> PointSize[0.009], Joined -> True, Frame -> True]];(*Plot particle orbit in xz space*)
+Print[XZ[1] = ListPlot[Table[xz[i], {i, 1, 2}], PlotRange -> All, FrameLabel -> {"z_coordinate[m]", "x_coordinate[m]"}, 
+                LabelStyle -> Directive[15], PlotStyle -> PointSize[0.009], Axes -> None, Joined -> True, Frame -> True]];(*Plot particle orbit in xz space*)
             
-Print[YZ[1] = ListPlot[Table[yz[i], {i, 1, 2}], PlotRange -> {{-10, 10}, {-0.2, 0.2}}, FrameLabel -> {"z_coordinate[m]", "y_coordinate[m]"}, 
-                 LabelStyle -> Directive[15], PlotStyle -> PointSize[0.009], Joined -> True, Frame -> True]];(*Plot particle orbit in yz space*)
+Print[YZ[1] = ListPlot[Table[yz[i], {i, 1, 2}], PlotRange -> {{-5, 5}, All}, FrameLabel -> {"z_coordinate[m]", "y_coordinate[m]"}, 
+                 LabelStyle -> Directive[15], PlotStyle -> PointSize[0.009], Axes -> None, Joined -> True, Frame -> True]];(*Plot particle orbit in yz space*)
 
+Print[XPX[1] = ListPlot[Table[xpx[i], {i, 1, 2}], PlotRange -> All, FrameLabel -> {"x_coordinate[m]", "vx[m/s]"}, 
+                        AspectRatio -> 1, LabelStyle -> Directive[15], PlotStyle -> PointSize[0.009], Axes -> None, Joined -> True, Frame -> True]];
+
+Print[YPY[1] = ListPlot[Table[ypy[i], {i, 1, 2}], PlotRange -> All, FrameLabel -> {"y_coordinate[m]", "vy[m/s]"}, 
+                        AspectRatio -> 1, LabelStyle -> Directive[15], PlotStyle -> PointSize[0.009], Axes -> None, Joined -> True, Frame -> True]];
+
+Print[ZPZ[1] = ListPlot[Table[zpz[i], {i, 1, 2}], PlotRange -> All, FrameLabel -> {"z_coordinate[m]", "vz[m/s]"}, 
+                        AspectRatio -> 1, LabelStyle -> Directive[15], PlotStyle -> PointSize[0.009], Axes -> None, Joined -> True, Frame -> True]];
+    
 Athe[r_, z_] := NIntegrate[(R^2*r)/(2 \[Pi]) ((Sin[\[Theta]]*Sin[\[Theta]])/(R^2 + r^2 - 2 R*r*Cos[\[Theta]]))*((z + l/2)/
                             Sqrt[(z + l/2)^2 + R^2 + r^2 - 2 R*r*Cos[\[Theta]]] - (z - l/2)/Sqrt[(z - l/2)^2 + R^2 + r^2 - 2 R*r*Cos[\[Theta]]])/(Bz0), {\[Theta], 0, 2 \[Pi]}];
                             (*Scaled vector potential*)
@@ -135,36 +148,35 @@ Table[Rdorb[i] = Table[{SOL[i][[3]][t], ((SOL[i][[1]][t]*SOL[i][[1]]'[t] + SOL[i
 
 Print[Text[Style["Plot of P\[Theta], Kinetic term, and Potential term", 16, Bold, Black]]];
                                          
-Print[Ps[1] = ListPlot[Table[Invari[i], {i, 1, 2}], PlotRange -> {{-5, 5}, {-3*10^-26, 3*10^-26}}, FrameLabel -> {"z_coordinate[m]", "\!\(\*SubscriptBox[\(P\), \(\[Theta]\)]\)"}, 
+Print[Ps[1] = ListPlot[Table[Invari[i], {i, 1, 2}], PlotRange -> {{-5, 5}, All}, FrameLabel -> {"z_coordinate[m]", "\!\(\*SubscriptBox[\(P\), \(\[Theta]\)]\)"}, 
                        LabelStyle -> Directive[15], Frame -> True, Axes -> None, Joined -> True, AspectRatio -> 0.3, ImageSize -> {800, 240}]];(*Plot Ptheta vs z*)
 
-Print[Kt[1] = ListPlot[Table[MAM[i], {i, 1, 2}], PlotRange -> {{-5, 5}, {-2*10^-22, 2*10^-22}}, FrameLabel -> {"z_coordinate[m]", "Kitetic term"}, 
+Print[Kt[1] = ListPlot[Table[MAM[i], {i, 1, 2}], PlotRange -> {{-5, 5}, All}, FrameLabel -> {"z_coordinate[m]", "Kitetic term"}, 
                        LabelStyle -> Directive[15], Frame -> True, Axes -> None, Joined -> True, AspectRatio -> 0.3, ImageSize -> {800, 240}]];(*Plot Knetic term vs z*)
 
-Print[Pt[1] = ListPlot[Table[PT[i], {i, 1, 2}], PlotRange -> {{-5, 5}, {-2*10^-22, 2*10^-22}}, FrameLabel -> {"z_coordinate[m]", "Potential term"}, 
+Print[Pt[1] = ListPlot[Table[PT[i], {i, 1, 2}], PlotRange -> {{-5, 5}, All}, FrameLabel -> {"z_coordinate[m]", "Potential term"}, 
                        LabelStyle -> Directive[15], Frame -> True, Axes -> None, Joined -> True, AspectRatio -> 0.3, ImageSize -> {800, 240}]];(*Plot Potential term vs z*)
 
 Print[Text[Style["Plot of Lorentz factors", 16, Bold, Black]]];                                         
 
-Print[LG[1] = Show[ListPlot[Table[Gamma3d[i], {i, 1, 2}], PlotRange -> {{-5, 5}, {1.000013525, 1.000013537}}, FrameTicks -> {{{{1.000013525, "1.000013525"}, {1.00001353, "1.00001353"}, {1.000013535, "1.000013535"}}, None}, {{-5, -2.5, 0, 2.5, 5}, None}}, FrameLabel -> {"z_coordinate[m]", "Lorenz factor \[Gamma]"}, LabelStyle -> Directive[15], Frame -> True, Axes -> None, Joined -> True, AspectRatio -> 0.3, ImageSize -> {800, 240}],
-            ListPlot[Table[Gammaz[i], {i, 1, 2}],PlotRange -> {{-5, 5}, {1.0000135, 1.0000136}}, FrameTicks -> {{{{1.0000135, "1.0000135"}, {1.00001355, 
-                    "1.00001355"}, {1.0000136, "1.0000136"}}, None}, {{-5, -2.5, 0, 2.5, 5}, None}}, FrameLabel -> {"z_coordinate[m]", "Lorenz factor \[Gamma]"}, 
+Print[LG[1] = Show[ListPlot[Table[Gamma3d[i], {i, 1, 2}], PlotRange -> {{-5, 5}, All}, FrameLabel -> {"z_coordinate[m]", "Lorenz factor \[Gamma]"},
+                            LabelStyle -> Directive[15], Frame -> True, Axes -> None, Joined -> True, AspectRatio -> 0.3, ImageSize -> {800, 240}],
+            ListPlot[Table[Gammaz[i], {i, 1, 2}],PlotRange -> {{-5, 5}, All}, FrameLabel -> {"z_coordinate[m]", "Lorenz factor \[Gamma]"}, 
                      LabelStyle -> Directive[15], Frame -> True, Axes -> None, Joined -> True, AspectRatio -> 0.3, ImageSize -> {800, 240}]]];
                     (*Plot Lorentz gamma vs z*)
                                          
-Print[LB[1] = Show[ListPlot[Table[Beta3d[i], {i, 1, 2}], PlotRange -> {{-5, 5}, {0.005201, 0.005203}}, FrameTicks -> {{{{0.005201, "0.005201"},{0.005202, "0.005202"}
-                   , {0.005203, "0.005203"}},None}, {{-5, -2.5, 0, 2.5, 5}, None}}, FrameLabel -> {"z_coordinate[m]", "Lorenz factor \[Beta]"}
+Print[LB[1] = Show[ListPlot[Table[Beta3d[i], {i, 1, 2}], PlotRange -> {{-5, 5}, All}, FrameLabel -> {"z_coordinate[m]", "Lorenz factor \[Beta]"}
                     , LabelStyle -> Directive[15], Frame -> True, Axes -> None, Joined -> True, AspectRatio -> 0.3, ImageSize -> {800, 240}],
-             ListPlot[Table[Betaz[i], {i, 1, 2}], PlotRange -> {{-5, 5}, {0.00519, 0.00521}}, FrameLabel -> {"z_coordinate[m]", "Lorenz factor \!\(\*SubscriptBox[\(\[Beta]\)
+             ListPlot[Table[Betaz[i], {i, 1, 2}], PlotRange -> {{-5, 5}, All}, FrameLabel -> {"z_coordinate[m]", "Lorenz factor \!\(\*SubscriptBox[\(\[Beta]\)
                     , \(b\)]\)"}, LabelStyle -> Directive[15], Frame -> True, Axes -> None, Joined -> True, AspectRatio -> 0.3, ImageSize -> {800, 240}]]];                                         
                     (*Plot Lorentz beta vs z*)
     
 Print[Text[Style["Plot of r and dr/dz orbit", 16, Bold, Black]]];
                                          
-Print[Ro[1] = ListPlot[Table[Rorb[i], {i, 1, 2}], PlotRange -> {{-5, 5}, {0, 2*10^-2}}, FrameLabel -> {"z_coordinate[m]", "r_coordinate[m]"}, 
+Print[Ro[1] = ListPlot[Table[Rorb[i], {i, 1, 2}], PlotRange -> {{-5, 5}, All}, FrameLabel -> {"z_coordinate[m]", "r_coordinate[m]"}, 
                        LabelStyle -> Directive[15], Frame -> True, Axes -> None, Joined -> True, AspectRatio -> 0.3, ImageSize -> {800, 240}]];(*Plot r vs z*)
 
-Print[Rdo[1] = ListPlot[Table[Rdorb[i], {i, 1, 2}], PlotRange -> {{-5, 5}, {-4*10^-2, 4*10^-2}}, FrameLabel -> {"z_coordinate[m]", "dr/dz"}, 
+Print[Rdo[1] = ListPlot[Table[Rdorb[i], {i, 1, 2}], PlotRange -> {{-5, 5}, All}, FrameLabel -> {"z_coordinate[m]", "dr/dz"}, 
                         LabelStyle -> Directive[15], Frame -> True, Axes -> None, Joined -> True, AspectRatio -> 0.3, ImageSize -> {800, 240}]];(*Plot dr/dz vs z*)                                     
                                     
 Table[RKick[i, t_] := SOL[i][[3]]'[t]*((Inum*q*Bz[Sqrt[(SOL[i][[1]][t]^2 + SOL[i][[2]][t]^2)], SOL[i][[3]][t]])/(m*gamma)*(SOL[i][[1]][t]*SOL[i][[2]]'[t] - 
@@ -175,13 +187,25 @@ Table[RKick[i, t_] := SOL[i][[3]]'[t]*((Inum*q*Bz[Sqrt[(SOL[i][[1]][t]^2 + SOL[i
                         SOL[i][[3]]'[t]^3)*(SOL[i][[1]][t]*SOL[i][[1]]'[t] + SOL[i][[2]][t]*SOL[i][[2]]'[t])*(SOL[i][[2]][t]*SOL[i][[1]]'[t] - SOL[i][[1]][t]*
                         SOL[i][[2]]'[t]) - ((m*gamma*(SOL[i][[1]][0]*SOL[i][[2]]'[0] - SOL[i][[2]][0]*SOL[i][[1]]'[0]) + 
                         Inum*q*Athe[Sqrt[SOL[i][[1]][0]^2 + SOL[i][[2]][0]^2], SOL[i][[3]][0]]*Sqrt[SOL[i][[1]][0]^2 + SOL[i][[2]][0]^2])/(m*gamma*v))^2/(SOL[i][[1]][t]^2 + SOL[i][[2]][t]^2)^(3/2)), {i, 1,2}];(*Radial kick in z coodrinate befor integration from simulations*)
-                                                                            
+
+Table[RdKick[i] =Table[{SOL[i][[3]][t],((Inum*q*Bz[Sqrt[(SOL[i][[1]][t]^2 + SOL[i][[2]][t]^2)], SOL[i][[3]][t]])/(m*gamma)*(SOL[i][[1]][t]*SOL[i][[2]]'[t] - 
+                        SOL[i][[2]][t]*SOL[i][[1]]'[t])/(Sqrt[(SOL[i][[1]][t]^2 + SOL[i][[2]][t]^2)]*SOL[i][[3]]'[t]^2) + 
+                        1/((SOL[i][[1]][t]^2 + SOL[i][[2]][t]^2)^(3/2)*SOL[i][[3]]'[t]^2)*(-(SOL[i][[1]][t]*SOL[i][[1]]'[t] + 
+                        SOL[i][[2]][t]*SOL[i][[2]]'[t])^2 + (SOL[i][[1]][t]^2 + SOL[i][[2]][t]^2)*(SOL[i][[1]]'[t]^2 + 
+                        SOL[i][[2]]'[t]^2)) - (Inum*q*Br[Sqrt[(SOL[i][[1]][t]^2 + SOL[i][[2]][t]^2)], SOL[i][[3]][t]])/(m*gamma*(SOL[i][[1]][t]^2 + SOL[i][[2]][t]^2)*
+                        SOL[i][[3]]'[t]^3)*(SOL[i][[1]][t]*SOL[i][[1]]'[t] + SOL[i][[2]][t]*SOL[i][[2]]'[t])*(SOL[i][[2]][t]*SOL[i][[1]]'[t] - SOL[i][[1]][t]*
+                        SOL[i][[2]]'[t]) - ((m*gamma*(SOL[i][[1]][0]*SOL[i][[2]]'[0] - SOL[i][[2]][0]*SOL[i][[1]]'[0]) + 
+                        Inum*q*Athe[Sqrt[SOL[i][[1]][0]^2 + SOL[i][[2]][0]^2], SOL[i][[3]][0]]*Sqrt[SOL[i][[1]][0]^2 + SOL[i][[2]][0]^2])/(m*gamma*v))^2/
+                        (SOL[i][[1]][t]^2 + SOL[i][[2]][t]^2)^(3/2))}, {t, 0, Lz/v, Lz/v/2000}], {i, 1, 2}];    
+    
 Table[RDD[i] = NIntegrate[RKick[i, t], {t, 0, Lz/v}, PrecisionGoal -> 7, MaxRecursion -> 20], {i, 1, 2}];(*Radial kick in z coodrinate after integration from simulations*)
       
 ClearAll[r0];
 
 (*Analytic calculation of radial kick*)
 
+r0[1] = Table[Sqrt[SOL[i][[1]][(Lz-3*l)/v/2]^2 + SOL[i][[2]][(Lz-3*l)/v/2]^2], {i, 1, 2}];    
+    
 Bz00[z_] = (z + l/2)/Sqrt[(z + l/2)^2 + R^2] - (z - l/2)/Sqrt[(z - l/2)^2 + R^2];(*Bz field*)
                                          
 Bz1[z_] := ((z + l/2)/Sqrt[(z + l/2)^2 + R^2] - (z - l/2)/Sqrt[(z - l/2)^2 + R^2])/Bz00[0];(*Scaled Bz field*)
@@ -197,8 +221,6 @@ Bz5[z_] := Bz4'[z];(*Scaled Bz field*)
 Bz6[z_] := Bz5'[z];(*Scaled Bz field*)
 
 Brho = m*gamma*v/(Inum*q);
-                                    
-r0[1] = Table[Sqrt[Xinit[1][[i]]^2 + Yinit[1][[i]]^2], {i, 1, 2}];      
       
 Table[RD1[i] = -1/4*NIntegrate[(Bz1[z]/Brho)^2*r0[1][[i]], {z, -\[Infinity], \[Infinity]}], {i, 1, 2}];
                                          
@@ -211,14 +233,13 @@ Table[RD4[i] = -7/4608*NIntegrate[(Bz4[z]/Brho)^2*r0[1][[i]]^7, {z, -\[Infinity]
 Table[RD5[i] = -7/98304*NIntegrate[(Bz5[z]/Brho)^2*r0[1][[i]]^9, {z, -\[Infinity], \[Infinity]}], {i, 1, 2}];
     
 Print[Text[Style["Comparison of Radial kick between the theory and the simulation", 16, Bold, Black]]];                                         
-                                         
-Print[Rdd[1] = Show[
-              ListPlot[Table[{Invari[i][[1, 2]], (RD1[i] + RD2[i] + RD3[i] + RD4[i] + RD5[i])}, {i, 1, 2}], PlotRange -> {{-0.5*10^-25, 3.5*10^-25}, {-0.05, 0.05}}, 
-                       FrameTicks -> {{{{-0.04, "-0.04"}, {-0.02, "-0.02"}, {0, "0"}, {0.02, "0.02"}, {0.04, "0.04"}}, None}, {{{0, "0"}, {1*10^-25, 
-                        "1*\!\(\*SuperscriptBox[\(10\), \(-25\)]\)"}, {2*10^-25, "2*\!\(\*SuperscriptBox[\(10\), \(-25\)]\)"}, {3*10^-25, 
-                        "3*\!\(\*SuperscriptBox[\(10\), \(-25\)]\)"}}, None}}, PlotStyle -> {Blue}, FrameLabel -> {"\!\(\*SubscriptBox[\(P\), \(\[Theta]\)]\)", 
-                        "\[CapitalDelta]r'"}, LabelStyle -> Directive[15], Frame -> True,Axes -> None],
-                        ListPlot[Table[{Invari[j][[1, 2]], RDD[j]}, {j, 1, 2}], PlotRange -> {{-0.5*10^-25, 3.5*10^-25}, {-0.05, 0.05}}, 
+
+Print[Rdkick[1] = ListPlot[Table[RdKick[i], {i, 1, 2}], PlotRange -> {{-5, 5}, All}, Axes -> None, Joined -> True, Frame -> True, FrameLabel -> {"z[m]","Radial Kick"}, 
+                               LabelStyle -> Directive[13],  AspectRatio -> 0.75, ImageSize -> {400, 300}]]
+    
+    Print[Rdd[1] = Show[ListPlot[Table[{Invari[i][[1, 2]], (RD1[i] + RD2[i] + RD3[i] + RD4[i] + RD5[i])}, {i, 1, 2}], PlotRange -> {All,{-0.022,0.012}},PlotStyle -> {Blue},
+                       FrameLabel -> {"\!\(\*SubscriptBox[\(P\), \(\[Theta]\)]\)", "\[CapitalDelta]r'"}, LabelStyle -> Directive[15], Frame -> True,Axes -> None],
+                        ListPlot[Table[{Invari[j][[1, 2]], RDD[j]}, {j, 1, 2}], PlotRange -> All, 
                         PlotStyle -> {Red}, FrameLabel -> {"\!\(\*SubscriptBox[\(P\), \(\[Theta]\)]\)","\[CapitalDelta]r'"}, LabelStyle -> Directive[15], Frame -> True,
                                  Axes -> None]]];
                         (*Comparison of Radial kick between the theory and the simulation*)      
