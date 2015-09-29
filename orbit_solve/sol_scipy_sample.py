@@ -104,7 +104,14 @@ def deriv(t,yvec):
 
 #set integration conditions
 ans=ode(deriv)
-ans.set_integrator('dopri5') #forth order runge-kutta
+ans.set_integrator('dopri5') 
+"""
+ “dopri5”
+ This is an explicit runge-kutta method of order (4)5 
+ due to Dormand & Prince (with stepsize control and dense output).
+ See also,
+ http://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.ode.html
+"""
 ans.set_initial_value(init)
 hst=empty((nt,6))
 hst[0] = init #set initial condition of integration
