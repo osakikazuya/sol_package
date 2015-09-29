@@ -10,122 +10,139 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     12486,        276]
-NotebookOptionsPosition[     12066,        257]
-NotebookOutlinePosition[     12430,        273]
-CellTagsIndexPosition[     12387,        270]
+NotebookDataLength[     13732,        298]
+NotebookOptionsPosition[     13321,        279]
+NotebookOutlinePosition[     13676,        295]
+CellTagsIndexPosition[     13633,        292]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
 
 Cell[CellGroupData[{
-Cell[BoxData[{
+Cell[BoxData[
  RowBox[{
-  RowBox[{"ClearAll", "[", "beta", "]"}], ";"}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"clight", "=", 
-    RowBox[{"2.99792458", "*", 
-     SuperscriptBox["10", "8"]}]}], ";", 
-   RowBox[{"(*", 
-    RowBox[{"speed", " ", "of", " ", 
-     RowBox[{"light", "[", 
-      RowBox[{"m", "/", "s"}], "]"}]}], "*)"}], "\[IndentingNewLine]", 
-   RowBox[{"m", "=", 
-    RowBox[{"1.66053892", "*", 
-     SuperscriptBox["10", 
-      RowBox[{"-", "27"}]]}]}], ";", 
-   RowBox[{"(*", 
-    RowBox[{"mass", " ", "of", " ", "particle"}], "*)"}], 
-   "\[IndentingNewLine]", 
-   RowBox[{"q", "=", 
-    RowBox[{"1.60217657", "*", 
-     SuperscriptBox["10", 
-      RowBox[{"-", "19"}]]}]}], ";", 
-   RowBox[{"(*", 
-    RowBox[{"elementary", " ", "charge"}], "*)"}], "\[IndentingNewLine]", 
-   RowBox[{"Inum", "=", "1"}], ";"}], 
-  RowBox[{"(*", 
-   RowBox[{"charge", " ", "number", " ", "of", " ", "particle"}], 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{
-   RowBox[{"Brho", "[", "1", "]"}], "=", 
-   RowBox[{"{", 
+  RowBox[{"(*", " ", 
+   RowBox[{
     RowBox[{
-    "0.1", ",", "0.2", ",", "0.3", ",", "0.4", ",", "1.0", ",", "3.0", ",", 
-     "4.0", ",", "5.0", ",", "6.0", ",", "7.0", ",", "8.0", ",", "9.0", ",", 
-     "10.0"}], "}"}]}], ";", 
-  RowBox[{"(*", "Rigidity", "*)"}], "\[IndentingNewLine]", 
-  RowBox[{"Table", "[", 
-   RowBox[{
-    RowBox[{"NSolve", "[", 
-     RowBox[{
-      RowBox[{
-       RowBox[{"m", "*", 
-        SqrtBox[
-         RowBox[{"1", "/", 
-          RowBox[{"(", 
-           RowBox[{"1", "-", 
-            RowBox[{"beta", "^", "2"}]}], ")"}]}]], "*", "beta", "*", 
-        RowBox[{"clight", "/", "q"}]}], "\[Equal]", 
-       RowBox[{
-        RowBox[{"Brho", "[", "1", "]"}], "[", 
-        RowBox[{"[", "i", "]"}], "]"}]}], ",", "beta"}], "]"}], ",", 
-    RowBox[{"{", 
-     RowBox[{"i", ",", "1", ",", "13"}], "}"}]}], "]"}], 
-  ";"}], "\[IndentingNewLine]", 
- RowBox[{
+    "Setup", " ", "script", " ", "\[IndentingNewLine]", "   ", "Calculate", 
+     " ", "Lorentz", " ", "factor", " ", 
+     RowBox[{"(", "beta", ")"}]}], ",", " ", 
+    RowBox[{"kinetic", " ", "energy", " ", 
+     RowBox[{"(", "eV", ")"}]}], ",", " ", 
+    RowBox[{"and", " ", "relativistic", " ", "gamma"}], ",", "  ", 
+    RowBox[{"for", " ", "values", " ", 
+     RowBox[{"of", " ", "[", "Brho", "]"}], " ", "specified", " ", "in", " ", 
+     
+     RowBox[{"list", ".", "  ", "This"}], " ", "data", " ", "is", " ", "used",
+      " ", "in", " ", "python", " ", "script", " ", "setup", " ", "for", " ", 
+     "orbit", " ", 
+     RowBox[{"data", ".", "  ", "\[IndentingNewLine]", "Values"}], " ", 
+     "pasted", " ", "into", " ", "shell", " ", "script", " ", "sol_scipy", 
+     RowBox[{"_sample", ".", "sh"}]}]}], "     ", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
   RowBox[{
-   RowBox[{"BetaList", "[", "1", "]"}], "=", 
-   RowBox[{"Flatten", "[", 
-    RowBox[{"beta", "/.", "%"}], "]"}]}], 
-  RowBox[{"(*", 
-   RowBox[{"Lorentz", " ", "factor", " ", "beta"}], 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"Table", "[", 
    RowBox[{
-    RowBox[{"N", "[", 
-     RowBox[{
+    RowBox[{"ClearAll", "[", "beta", "]"}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"clight", "=", 
+     RowBox[{"2.99792458", "*", 
+      SuperscriptBox["10", "8"]}]}], ";", 
+    RowBox[{"(*", 
+     RowBox[{"speed", " ", "of", " ", 
+      RowBox[{"light", "[", 
+       RowBox[{"m", "/", "s"}], "]"}]}], "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"m", "=", 
+     RowBox[{"1.66053892", "*", 
+      SuperscriptBox["10", 
+       RowBox[{"-", "27"}]]}]}], ";", 
+    RowBox[{"(*", 
+     RowBox[{"mass", " ", "of", " ", "particle"}], "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{"q", "=", 
+     RowBox[{"1.60217657", "*", 
+      SuperscriptBox["10", 
+       RowBox[{"-", "19"}]]}]}], ";", 
+    RowBox[{"(*", 
+     RowBox[{"elementary", " ", "charge"}], "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"Inum", "=", "1"}], ";", 
+    RowBox[{"(*", 
+     RowBox[{"charge", " ", "number", " ", "of", " ", "particle"}], "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"Brho", "[", "1", "]"}], "=", 
+     RowBox[{"{", 
       RowBox[{
-       RowBox[{"(", 
+      "0.1", ",", "0.2", ",", "0.3", ",", "0.4", ",", "1.0", ",", "3.0", ",", 
+       "4.0", ",", "5.0", ",", "6.0", ",", "7.0", ",", "8.0", ",", "9.0", ",",
+        "10.0"}], "}"}]}], ";", 
+    RowBox[{"(*", "Rigidity", "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"Table", "[", 
+     RowBox[{
+      RowBox[{"NSolve", "[", 
+       RowBox[{
         RowBox[{
-         SqrtBox[
-          RowBox[{"1", "/", 
-           RowBox[{"(", 
-            RowBox[{"1", "-", 
-             RowBox[{
-              RowBox[{
-               RowBox[{"BetaList", "[", "1", "]"}], "[", 
-               RowBox[{"[", "i", "]"}], "]"}], "^", "2"}]}], ")"}]}]], "-", 
-         "1"}], ")"}], "*", 
+         RowBox[{"m", "*", 
+          SqrtBox[
+           RowBox[{"1", "/", 
+            RowBox[{"(", 
+             RowBox[{"1", "-", 
+              RowBox[{"beta", "^", "2"}]}], ")"}]}]], "*", "beta", "*", 
+          RowBox[{"clight", "/", "q"}]}], "\[Equal]", 
+         RowBox[{
+          RowBox[{"Brho", "[", "1", "]"}], "[", 
+          RowBox[{"[", "i", "]"}], "]"}]}], ",", "beta"}], "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "1", ",", "13"}], "}"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"BetaList", "[", "1", "]"}], "=", 
+    RowBox[{"Flatten", "[", 
+     RowBox[{"beta", "/.", "%"}], "]"}]}], 
+   RowBox[{"(*", 
+    RowBox[{"Lorentz", " ", "factor", " ", "beta"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"N", "[", 
+      RowBox[{
        RowBox[{
         RowBox[{"(", 
-         RowBox[{"m", "*", 
-          RowBox[{"clight", "^", "2"}]}], ")"}], "/", "q"}]}], ",", "3"}], 
-     "]"}], ",", 
-    RowBox[{"{", 
-     RowBox[{"i", ",", "1", ",", "13"}], "}"}]}], "]"}], 
-  RowBox[{"(*", 
-   RowBox[{"Kinetic", " ", "Energy", " ", "of", " ", "particle"}], 
-   "*)"}]}], "\[IndentingNewLine]", 
- RowBox[{
-  RowBox[{"Table", "[", 
-   RowBox[{
-    SqrtBox[
-     RowBox[{"1", "/", 
-      RowBox[{"(", 
-       RowBox[{"1", "-", 
-        RowBox[{
          RowBox[{
-          RowBox[{"BetaList", "[", "1", "]"}], "[", 
-          RowBox[{"[", "i", "]"}], "]"}], "^", "2"}]}], ")"}]}]], ",", 
-    RowBox[{"{", 
-     RowBox[{"i", ",", "1", ",", "13"}], "}"}]}], "]"}], 
-  RowBox[{"(*", 
-   RowBox[{"Lorentz", " ", "factor", " ", "gamma"}], "*)"}]}]}], "Input",
+          SqrtBox[
+           RowBox[{"1", "/", 
+            RowBox[{"(", 
+             RowBox[{"1", "-", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"BetaList", "[", "1", "]"}], "[", 
+                RowBox[{"[", "i", "]"}], "]"}], "^", "2"}]}], ")"}]}]], "-", 
+          "1"}], ")"}], "*", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"m", "*", 
+           RowBox[{"clight", "^", "2"}]}], ")"}], "/", "q"}]}], ",", "3"}], 
+      "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "1", ",", "13"}], "}"}]}], "]"}], 
+   RowBox[{"(*", 
+    RowBox[{"Kinetic", " ", "Energy", " ", "of", " ", "particle"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     SqrtBox[
+      RowBox[{"1", "/", 
+       RowBox[{"(", 
+        RowBox[{"1", "-", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"BetaList", "[", "1", "]"}], "[", 
+           RowBox[{"[", "i", "]"}], "]"}], "^", "2"}]}], ")"}]}]], ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "1", ",", "13"}], "}"}]}], "]"}], 
+   RowBox[{"(*", 
+    RowBox[{"Lorentz", " ", "factor", " ", "gamma"}], "*)"}]}]}]], "Input",
  CellChangeTimes->{{3.65030209574545*^9, 3.650302113304532*^9}, {
    3.650302166148404*^9, 3.6503022403616123`*^9}, {3.6503022747687883`*^9, 
    3.650302283340618*^9}, {3.650302318341536*^9, 3.6503024140762157`*^9}, {
@@ -153,7 +170,9 @@ Cell[BoxData[{
    3.651086956032921*^9, 3.651086958280662*^9}, {3.651096115311398*^9, 
    3.651096145304262*^9}, {3.651536191523314*^9, 3.651536193774476*^9}, {
    3.652444065198039*^9, 3.652444248499401*^9}, {3.652444287804297*^9, 
-   3.6524443399346733`*^9}, {3.6524443729031887`*^9, 3.652444394852154*^9}}],
+   3.6524443399346733`*^9}, {3.6524443729031887`*^9, 3.652444394852154*^9}, {
+   3.6524555989960318`*^9, 3.6524557744517603`*^9}, {3.6524558046639023`*^9, 
+   3.652455807076627*^9}}],
 
 Cell[BoxData[
  RowBox[{"{", 
@@ -186,7 +205,8 @@ Cell[BoxData[
    3.650888414874021*^9, 3.65099405174592*^9, 3.650994113702498*^9, 
    3.650994161105727*^9, 3.651086959404789*^9, {3.651096119772884*^9, 
    3.651096145996613*^9}, 3.651242621423048*^9, 3.651536196082902*^9, 
-   3.6516916782530737`*^9, 3.651881894775548*^9, 3.6524444221331463`*^9}],
+   3.6516916782530737`*^9, 3.651881894775548*^9, 3.6524444221331463`*^9, 
+   3.652455513493559*^9}],
 
 Cell[BoxData[
  RowBox[{"{", 
@@ -219,7 +239,8 @@ Cell[BoxData[
    3.650888414874021*^9, 3.65099405174592*^9, 3.650994113702498*^9, 
    3.650994161105727*^9, 3.651086959404789*^9, {3.651096119772884*^9, 
    3.651096145996613*^9}, 3.651242621423048*^9, 3.651536196082902*^9, 
-   3.6516916782530737`*^9, 3.651881894775548*^9, 3.652444422134469*^9}],
+   3.6516916782530737`*^9, 3.651881894775548*^9, 3.6524444221331463`*^9, 
+   3.652455513498098*^9}],
 
 Cell[BoxData[
  RowBox[{"{", 
@@ -252,13 +273,14 @@ Cell[BoxData[
    3.650888414874021*^9, 3.65099405174592*^9, 3.650994113702498*^9, 
    3.650994161105727*^9, 3.651086959404789*^9, {3.651096119772884*^9, 
    3.651096145996613*^9}, 3.651242621423048*^9, 3.651536196082902*^9, 
-   3.6516916782530737`*^9, 3.651881894775548*^9, 3.652444422135725*^9}]
+   3.6516916782530737`*^9, 3.651881894775548*^9, 3.6524444221331463`*^9, 
+   3.65245551350069*^9}]
 }, Open  ]]
 },
 WindowSize->{958, 606},
-WindowMargins->{{83, Automatic}, {Automatic, 0}},
-FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (2013\:5e741\
-\:670828\:65e5)",
+WindowMargins->{{Automatic, 150}, {Automatic, 36}},
+FrontEndVersion->"10.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (June 27, \
+2014)",
 StyleDefinitions->"Default.nb"
 ]
 (* End of Notebook Content *)
@@ -273,10 +295,10 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[580, 22, 5470, 133, 238, "Input"],
-Cell[6053, 157, 1991, 31, 46, "Output"],
-Cell[8047, 190, 2015, 31, 57, "Output"],
-Cell[10065, 223, 1985, 31, 80, "Output"]
+Cell[580, 22, 6644, 152, 357, "Input"],
+Cell[7227, 176, 2017, 32, 46, "Output"],
+Cell[9247, 210, 2043, 32, 57, "Output"],
+Cell[11293, 244, 2012, 32, 46, "Output"]
 }, Open  ]]
 }
 ]

@@ -3,6 +3,9 @@ from scipy.integrate import *
 from scipy.optimize import *
 from scipy.interpolate import *
 
+# Parameters 
+# sed editor run to replace parameters in run 
+
 sR   = 0.08               #solenoid radius
 sl   = SOL_LENGTH         #solenoid length
 Lz   = 20.0               #simulation length of longitudinal direction
@@ -19,7 +22,7 @@ bz0  = 1.7647058823529411 #scaled factor to set the center of magnetic field to 
 bfac = 1.0                # Center of magnetic field[T]
 twpi = 2.0*pi             #two pi
 
-#function of Br(r,z) inside the integral
+#Integrand for calculation of Br(r,z)
 def brf(th,r,z):
     global twpi,sR,sL,bz0,bfac
     return(bfac/twpi*(
@@ -27,11 +30,11 @@ def brf(th,r,z):
        -(sR*cos(th))/sqrt((z+sl/2.0)**2.0 + sR**2.0 + r**2.0 - 2.0*sR*r*cos(th))
                )/bz0)
 
-#function of Br(r,z)
+#Br(r,z)
 def br(r,z):  
     return(quad(brf,0.0,2.0*pi,args=(r,z))[0])
 
-#function of Bz(r,z) inside the integral
+#Integrand for calculation of Bz(r,z)
 def bzf(th,r,z):
     global twpi,sR,sL,bz0
     return(bfac/twpi*
@@ -40,11 +43,11 @@ def bzf(th,r,z):
              (z-sl/2.0)/sqrt((z-sl/2.0)**2.0 + sR**2.0 + r**2.0 - 2.0*sR*r*cos(th))
             )/bz0)
 
-#function of Bz(r,z)
+#Bz(r,z)
 def bz(r,z):  
     return(quad(bzf,0.0,2.0*pi,args=(r,z))[0])
     
-#function of Atheta(r,z) inside the integral
+#Integrand for calculation of A_theta = Atheta(r,z)
 def atf(th,r,z):
     global twpi,sR,sL,bz0
     return(bfac*(r*sR**2.0)/twpi*
@@ -53,7 +56,7 @@ def atf(th,r,z):
              (z-sl/2.0)/sqrt((z-sl/2.0)**2.0 + sR**2.0 + r**2.0 - 2.0*sR*r*cos(th))
             )/bz0)
 
-#function of Atheta(r,z)
+#Atheta(r,z)
 def at(r,z):  
     return(quad(atf,0.0,2.0*pi,args=(r,z))[0])
 
@@ -78,7 +81,14 @@ nt = NSTEP                        #total step
 tvec = linspace(0,Lz/vz0,nt)      #time step of simulation
 init = [INIT_AMP,0,0,INIT_VELO/gmm,-Lz/2.0,vz0] #initial values  [x, vx, y, vy, z, vz0]
 
-#function of numerical integration
+#Coupled ordinary differential equations describing particle orbit to be integraded 
+#  fr[6] = vector length 6 defining rhs of equations to integrate
+#     fr[0] = d x/dt 
+#     fr[1] = d^2 x/dt^2 
+#     fr[2] = d y/dt 
+#     fr[3] = d^2 y/dt^2 
+#     fr[4] = d z/dt 
+#     fr[5] = d^2 z/dt^2 
 def deriv(t,yvec):
     global qc,gmm,ms
     fr = [0]*6
@@ -117,5 +127,13 @@ vz = hst[:,5]
 #list of physical parameter
 pt = array( [ physpara(hst[i]) for i in range(nt)])
 
-#output data list 0:x   1:vx   2:y   3:vy   4:z   5:vz  6:p_theta = mass*gamma*(xx*vy - yy*vx)+q*r*A_theta   7:Radial kick for each simulation step
+#output data list 
+# 0:x   
+# 1:vx   
+# 2:y   
+# 3:vy   
+# 4:z   
+# 5:vz  
+# 6:p_theta = mass*gamma*(xx*vy - yy*vx)+q*r*A_theta    Canonical angular momentum    
+# 7:Radial kick for each simulation step   r' integral argument as a function of z 
 savetxt("alldata.dat",transpose((xx,vx,yy,vy,zz,vz,pt[:,0],pt[:,1])))
